@@ -35,6 +35,20 @@ public class SpannableTextView extends TextView {
     }
 
     private void init() {
+        // TODO: 2018/4/8 init attrs
+    }
+
+
+    /* public method start */
+
+    /**
+     * remove Span by id
+     *
+     * @param id the id of the Span
+     */
+    public void removeSpan(int id) {
 
     }
+
+    /* public method end */
 }
