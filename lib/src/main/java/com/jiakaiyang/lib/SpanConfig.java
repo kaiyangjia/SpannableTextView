@@ -1,5 +1,10 @@
 package com.jiakaiyang.lib;
 
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,22 +21,28 @@ public class SpanConfig {
     private int spanFlag;
     private Object mSpan;
 
-    private SpanConfig(Object mSpan) {
-        this.mSpan = mSpan;
+
+    // just for ForegroundColorSpan
+    private int foregroundColor;
+
+
+    private SpanConfig() {
     }
 
     /**
      * Create SpanConfig
      *
      * @param srcConfig the raw string from xml layout.
-     * @param mSpan
      * @return
      */
-    public static SpanConfig createInstance(String srcConfig, Object mSpan) {
-        SpanConfig spanConfig = new SpanConfig(mSpan);
+    public static SpanConfig createInstance(String srcConfig
+            , Class type) {
+        SpanConfig spanConfig = new SpanConfig();
 
         String[] strings = srcConfig.split(",");
-        if (strings.length != 4) {
+
+        // 最小长度是4
+        if (strings.length < 4) {
             throw new IllegalArgumentException("srcConfig format error");
         }
 
@@ -50,6 +61,13 @@ public class SpanConfig {
         spanConfig.setEnd(ints[2]);
         spanConfig.setSpanFlag(ints[3]);
 
+        // set extra data
+        if (type.equals(ForegroundColorSpan.class)) {
+            spanConfig.setForegroundColor(ints[4]);
+        } else if (type.equals(BackgroundColorSpan.class)) {
+            spanConfig.setForegroundColor(ints[4]);
+        }
+
         return spanConfig;
     }
 
@@ -58,20 +76,59 @@ public class SpanConfig {
      * Create SpanConfig List
      *
      * @param srcConfig
-     * @param mSpan
      * @return
      */
-    public static List<SpanConfig> createInstances(String srcConfig, Object mSpan) {
+    public static List<SpanConfig> createClickableSpanConfigs(String srcConfig
+            , final SpanClickListener listener) {
+        if (srcConfig == null) {
+            throw new IllegalArgumentException("srcConfig should not be null");
+        }
+
         List<SpanConfig> result = new ArrayList<>();
         String[] srcList = srcConfig.split("|");
 
         for (String src : srcList) {
-            SpanConfig spanConfig = createInstance(src, mSpan);
+            final SpanConfig spanConfig = createInstance(src
+                    , ClickableSpan.class);
+
+            Object span = new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    listener.onClick(widget, spanConfig);
+                }
+            };
+
+            spanConfig.setSpan(span);
             result.add(spanConfig);
         }
+
         return result;
     }
 
+
+    /**
+     * Create ForegroudnSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createForegroundSpanConfigs(String srcConfig) {
+        if (srcConfig == null) {
+            throw new IllegalArgumentException("srcConfig should not be null");
+        }
+
+        List<SpanConfig> result = new ArrayList<>();
+        String[] srcList = srcConfig.split("|");
+
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, ForegroundColorSpan.class);
+            ForegroundColorSpan span = new ForegroundColorSpan(spanConfig.getForegroundColor());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
 
     public int getId() {
         return id;
@@ -105,11 +162,19 @@ public class SpanConfig {
         this.spanFlag = spanFlag;
     }
 
-    public Object getmSpan() {
+    public Object getSpan() {
         return mSpan;
     }
 
-    public void setmSpan(Object mSpan) {
+    public void setSpan(Object mSpan) {
         this.mSpan = mSpan;
+    }
+
+    public int getForegroundColor() {
+        return foregroundColor;
+    }
+
+    public void setForegroundColor(int foregroundColor) {
+        this.foregroundColor = foregroundColor;
     }
 }

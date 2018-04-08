@@ -11,5 +11,5 @@
         android:id="@+id/spannable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        spannable:addClickableSpan="1,0,4,2" />
+        spannable:addForegroundColorSpan="1,0,4,12,0xFFFF0000" />
 </LinearLayout>
