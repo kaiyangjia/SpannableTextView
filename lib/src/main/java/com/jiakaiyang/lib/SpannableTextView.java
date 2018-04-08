@@ -36,6 +36,7 @@ public class SpannableTextView extends TextView {
 
     private void init() {
         // TODO: 2018/4/8 init attrs
+
     }
 
 
