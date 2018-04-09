@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.SpannableString;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -47,36 +48,59 @@ public class SpannableTextView extends TextView {
     }
 
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        TypedArray typedArray = context.obtainStyledAttributes(R.styleable.SpannableTextView);
 
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SpannableTextView);
+
+        // set ClickableSpan attrs
         String addClickableSrc = typedArray.getString(R.styleable.SpannableTextView_addClickableSpan);
-        List<SpanConfig> clickableSpanConfig = SpanConfig.createClickableSpanConfigs(addClickableSrc, new SpanClickListener() {
-            @Override
-            public void onClick(View view, SpanConfig spanConfig) {
+        Log.i(TAG, "init: addClickableSrc: " + addClickableSrc);
+        if (addClickableSrc != null) {
+            List<SpanConfig> clickableSpanConfig = SpanConfig.createClickableSpanConfigs(addClickableSrc, new SpanClickListener() {
+                @Override
+                public void onClick(View view, SpanConfig spanConfig) {
 
-            }
-        });
+                }
+            });
+        }
 
 
+        // set ForegroundColorSpan attrs
         String foregroundSrc = typedArray.getString(R.styleable.SpannableTextView_addForegroundColorSpan);
-        List<SpanConfig> foregroundColorConfig = SpanConfig.createForegroundSpanConfigs(foregroundSrc);
-        mSpans.put("ForegroundColorSpan", foregroundColorConfig);
+        Log.i(TAG, "init: foregroundSrc: " + foregroundSrc);
+        if (foregroundSrc != null) {
+            List<SpanConfig> foregroundColorConfig = SpanConfig.createForegroundSpanConfigs(foregroundSrc);
+            mSpans.put("ForegroundColorSpan", foregroundColorConfig);
+        }
+
+
+        String backgroundSrc = typedArray.getString(R.styleable.SpannableTextView_addBackgroundColorSpan);
+        if (backgroundSrc != null) {
+            List<SpanConfig> backgroundColorConfig = SpanConfig.createBackgroundSpanConfigs(backgroundSrc);
+            mSpans.put("BackgroundColorSpan", backgroundColorConfig);
+        }
+
 
         typedArray.recycle();
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        SpannableString spannableString = new SpannableString(text);
-        for (List<SpanConfig> spanConfigs : mSpans.values()) {
-            for (SpanConfig spanConfig : spanConfigs) {
-                Object span = spanConfig.getSpan();
+        Log.i(TAG, "setText: text: " + text);
+        if (mSpans != null
+                && mSpans.values() != null) {
+            SpannableString spannableString = new SpannableString(text);
+            for (List<SpanConfig> spanConfigs : mSpans.values()) {
+                for (SpanConfig spanConfig : spanConfigs) {
+                    Object span = spanConfig.getSpan();
 
-                spannableString.setSpan(span, spanConfig.getStart(), spanConfig.getEnd(), spanConfig.getSpanFlag());
+                    spannableString.setSpan(span, spanConfig.getStart(), spanConfig.getEnd(), spanConfig.getSpanFlag());
+                }
             }
-        }
 
-        super.setText(spannableString, type);
+            super.setText(spannableString, type);
+        } else {
+            super.setText(text, type);
+        }
     }
 
     /* public method start */

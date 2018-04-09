@@ -9,7 +9,9 @@
 
     <com.jiakaiyang.lib.SpannableTextView
         android:id="@+id/spannable"
+        android:text="测试意思啊啊"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        spannable:addForegroundColorSpan="1,0,4,12,0xFFFF0000" />
+        spannable:addBackgroundColorSpan="1,4,6,12,#FF00FF00"
+        spannable:addForegroundColorSpan="2,0,4,12,#FFFF0000" />
 </LinearLayout>

@@ -4,5 +4,6 @@
         <attr name="addBackgroundColorSpan" format="string" />
         <attr name="addForegroundColorSpan" format="string" />
         <attr name="addClickableSpan" format="string" />
+        <attr name="addMaskFilterSpan" format="string" />
     </declare-styleable>
 </resources>

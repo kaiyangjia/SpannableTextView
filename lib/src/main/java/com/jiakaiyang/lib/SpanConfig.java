@@ -1,5 +1,6 @@
 package com.jiakaiyang.lib;
 
+import android.graphics.Color;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -15,6 +16,9 @@ import java.util.List;
 
 public class SpanConfig {
 
+    private static final String DIVIDER = ",";
+    private static final String GROUP_VIDIER = "/";
+
     private int id;
     private int start;
     private int end;
@@ -24,6 +28,9 @@ public class SpanConfig {
 
     // just for ForegroundColorSpan
     private int foregroundColor;
+
+    // just for BackgroundColorSpan
+    private int backgroundColor;
 
 
     private SpanConfig() {
@@ -39,7 +46,7 @@ public class SpanConfig {
             , Class type) {
         SpanConfig spanConfig = new SpanConfig();
 
-        String[] strings = srcConfig.split(",");
+        String[] strings = srcConfig.split(DIVIDER);
 
         // 最小长度是4
         if (strings.length < 4) {
@@ -50,12 +57,18 @@ public class SpanConfig {
         for (int i = 0; i < ints.length; i++) {
             try {
                 String str = strings[i];
-                ints[i] = Integer.valueOf(str);
+                if (str.startsWith("#")) {
+                    // color int, hex
+                    ints[i] = Color.parseColor(str);
+                } else {
+                    ints[i] = Integer.valueOf(str);
+                }
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("attr should be integer");
             }
         }
 
+        // base attrs
         spanConfig.setId(ints[0]);
         spanConfig.setStart(ints[1]);
         spanConfig.setEnd(ints[2]);
@@ -65,7 +78,7 @@ public class SpanConfig {
         if (type.equals(ForegroundColorSpan.class)) {
             spanConfig.setForegroundColor(ints[4]);
         } else if (type.equals(BackgroundColorSpan.class)) {
-            spanConfig.setForegroundColor(ints[4]);
+            spanConfig.setBackgroundColor(ints[4]);
         }
 
         return spanConfig;
@@ -118,11 +131,30 @@ public class SpanConfig {
         }
 
         List<SpanConfig> result = new ArrayList<>();
-        String[] srcList = srcConfig.split("|");
+        String[] srcList = srcConfig.split(GROUP_VIDIER);
 
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src, ForegroundColorSpan.class);
             ForegroundColorSpan span = new ForegroundColorSpan(spanConfig.getForegroundColor());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    public static List<SpanConfig> createBackgroundSpanConfigs(String srcConfig) {
+        if (srcConfig == null) {
+            throw new IllegalArgumentException("srcConfig should not be null");
+        }
+
+        List<SpanConfig> result = new ArrayList<>();
+        String[] srcList = srcConfig.split(GROUP_VIDIER);
+
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, BackgroundColorSpan.class);
+            BackgroundColorSpan span = new BackgroundColorSpan(spanConfig.getBackgroundColor());
             spanConfig.setSpan(span);
             result.add(spanConfig);
         }
@@ -176,5 +208,13 @@ public class SpanConfig {
 
     public void setForegroundColor(int foregroundColor) {
         this.foregroundColor = foregroundColor;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 }
