@@ -1,6 +1,7 @@
 package com.jiakaiyang.lib;
 
 import android.graphics.Color;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -79,6 +80,8 @@ public class SpanConfig {
             spanConfig.setForegroundColor(ints[4]);
         } else if (type.equals(BackgroundColorSpan.class)) {
             spanConfig.setBackgroundColor(ints[4]);
+        } else if (type.equals(AbsoluteSizeSpan.class)) {
+
         }
 
         return spanConfig;
