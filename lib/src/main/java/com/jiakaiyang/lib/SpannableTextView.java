@@ -81,25 +81,69 @@ public class SpannableTextView extends TextView {
 
 
         typedArray.recycle();
+
+        // init text
+        CharSequence charSequence = getText();
+        this.setText(charSequence);
     }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
         Log.i(TAG, "setText: text: " + text);
-        if (mSpans != null
-                && mSpans.values() != null) {
-            SpannableString spannableString = new SpannableString(text);
-            for (List<SpanConfig> spanConfigs : mSpans.values()) {
-                for (SpanConfig spanConfig : spanConfigs) {
-                    Object span = spanConfig.getSpan();
-
-                    spannableString.setSpan(span, spanConfig.getStart(), spanConfig.getEnd(), spanConfig.getSpanFlag());
-                }
-            }
-
+        if (mSpans != null) {
+            SpannableString spannableString = createSpannableString(text);
             super.setText(spannableString, type);
         } else {
             super.setText(text, type);
+        }
+    }
+
+    /**
+     * Create spannable string
+     * <p>
+     * a d j f o r p
+     * 0 1 2 3 4 5 6
+     * 0 -6 -5 -4 -3 -2 -1
+     *
+     * @param text
+     * @return
+     */
+    protected SpannableString createSpannableString(CharSequence text) {
+        SpannableString spannableString = new SpannableString(text);
+
+        for (List<SpanConfig> spanConfigs : mSpans.values()) {
+            for (SpanConfig spanConfig : spanConfigs) {
+                Object span = spanConfig.getSpan();
+                int end = spanConfig.getEnd();
+                int start = spanConfig.getStart();
+
+                checkArgs(start, end);
+
+                int realStart = spanConfig.getStart();
+                int realEnd = spanConfig.getEnd();
+
+                int length = text.length();
+
+                // if end < start, the direction will reverse
+                if (start == 0
+                        && end < 0) {
+                    realStart = length + end;
+                    realEnd = length;
+                }
+
+                spannableString.setSpan(span
+                        , realStart
+                        , realEnd
+                        , spanConfig.getSpanFlag());
+            }
+        }
+
+        return spannableString;
+    }
+
+    protected void checkArgs(int start, int end) {
+        if (start < 0) {
+            throw new IllegalArgumentException("start attr error");
         }
     }
 
