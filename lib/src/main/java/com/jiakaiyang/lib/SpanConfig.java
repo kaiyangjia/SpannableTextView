@@ -33,6 +33,9 @@ public class SpanConfig {
     // just for BackgroundColorSpan
     private int backgroundColor;
 
+    // just for AbsoluteSizeSpan
+    private int absoluteSizeSpanSize;
+    private boolean absoluteSizeSpanDip;
 
     private SpanConfig() {
     }
@@ -43,7 +46,7 @@ public class SpanConfig {
      * @param srcConfig the raw string from xml layout.
      * @return
      */
-    public static SpanConfig createInstance(String srcConfig
+    private static SpanConfig createInstance(String srcConfig
             , Class type) {
         SpanConfig spanConfig = new SpanConfig();
 
@@ -81,7 +84,13 @@ public class SpanConfig {
         } else if (type.equals(BackgroundColorSpan.class)) {
             spanConfig.setBackgroundColor(ints[4]);
         } else if (type.equals(AbsoluteSizeSpan.class)) {
+            spanConfig.setAbsoluteSizeSpanSize(ints[4]);
 
+            boolean isDip = false;
+            if (ints.length >= 6) {
+                isDip = ints[5] == 1;
+            }
+            spanConfig.setAbsoluteSizeSpanDip(isDip);
         }
 
         return spanConfig;
@@ -96,9 +105,7 @@ public class SpanConfig {
      */
     public static List<SpanConfig> createClickableSpanConfigs(String srcConfig
             , final SpanClickListener listener) {
-        if (srcConfig == null) {
-            throw new IllegalArgumentException("srcConfig should not be null");
-        }
+        checkArgNotNull(srcConfig);
 
         List<SpanConfig> result = new ArrayList<>();
         String[] srcList = srcConfig.split("|");
@@ -123,15 +130,13 @@ public class SpanConfig {
 
 
     /**
-     * Create ForegroudnSpan configs
+     * Create ForegroundSpan configs
      *
      * @param srcConfig
      * @return
      */
     public static List<SpanConfig> createForegroundSpanConfigs(String srcConfig) {
-        if (srcConfig == null) {
-            throw new IllegalArgumentException("srcConfig should not be null");
-        }
+        checkArgNotNull(srcConfig);
 
         List<SpanConfig> result = new ArrayList<>();
         String[] srcList = srcConfig.split(GROUP_VIDIER);
@@ -147,10 +152,14 @@ public class SpanConfig {
     }
 
 
+    /**
+     * create BackgroundSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
     public static List<SpanConfig> createBackgroundSpanConfigs(String srcConfig) {
-        if (srcConfig == null) {
-            throw new IllegalArgumentException("srcConfig should not be null");
-        }
+        checkArgNotNull(srcConfig);
 
         List<SpanConfig> result = new ArrayList<>();
         String[] srcList = srcConfig.split(GROUP_VIDIER);
@@ -165,9 +174,41 @@ public class SpanConfig {
         return result;
     }
 
+
+    /**
+     * create AbsoluteSizeSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createAbsoluteSizeSpanConfigs(String srcConfig) {
+        checkArgNotNull(srcConfig);
+
+        List<SpanConfig> result = new ArrayList<>();
+        String[] srcList = srcConfig.split(GROUP_VIDIER);
+
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, AbsoluteSizeSpan.class);
+            AbsoluteSizeSpan span = new AbsoluteSizeSpan(spanConfig.getAbsoluteSizeSpanSize()
+                    , spanConfig.isAbsoluteSizeSpanDip());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    private static void checkArgNotNull(String srcConfig) {
+        if (srcConfig == null) {
+            throw new IllegalArgumentException("srcConfig should not be null");
+        }
+    }
+
     public int getId() {
         return id;
     }
+
 
     public void setId(int id) {
         this.id = id;
@@ -219,5 +260,21 @@ public class SpanConfig {
 
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public int getAbsoluteSizeSpanSize() {
+        return absoluteSizeSpanSize;
+    }
+
+    public void setAbsoluteSizeSpanSize(int absoluteSizeSpanSize) {
+        this.absoluteSizeSpanSize = absoluteSizeSpanSize;
+    }
+
+    public boolean isAbsoluteSizeSpanDip() {
+        return absoluteSizeSpanDip;
+    }
+
+    public void setAbsoluteSizeSpanDip(boolean absoluteSizeSpanDip) {
+        this.absoluteSizeSpanDip = absoluteSizeSpanDip;
     }
 }

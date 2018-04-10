@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initView() {
-        SpannableTextView textView = findViewById(R.id.spannable);
-        textView.setText("测试以下啊啊啊还是");
+//        SpannableTextView textView = findViewById(R.id.spannable);
+//        textView.setText("测试以下啊啊啊还是");
     }
 }

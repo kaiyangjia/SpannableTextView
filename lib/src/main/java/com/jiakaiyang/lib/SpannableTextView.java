@@ -80,6 +80,12 @@ public class SpannableTextView extends TextView {
         }
 
 
+        String absoluteSizeSrc = typedArray.getString(R.styleable.SpannableTextView_addAbsoluteSizeSpan);
+        if (absoluteSizeSrc != null) {
+            List<SpanConfig> absoluteSizeConfig = SpanConfig.createAbsoluteSizeSpanConfigs(absoluteSizeSrc);
+            mSpans.put("AbsoluteSizeSpan", absoluteSizeConfig);
+        }
+
         typedArray.recycle();
 
         // init text

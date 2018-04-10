@@ -40,6 +40,6 @@ publish {
     repoName = 'android'
     groupId = 'com.jiakaiyang'
     artifactId = 'spannabletextview'
-    publishVersion = '0.9'
+    publishVersion = '0.9.1'
     website = 'https://github.com/kaiyangjia/SpannableTextView.git'
 }

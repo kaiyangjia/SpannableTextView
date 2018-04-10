@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hsdgdhsagdhjsagfdeugf"
-        spannable:addBackgroundColorSpan="1,8,12,12,#FF00FF00/1,2,5,12,#FFFF00FF"
-        spannable:addForegroundColorSpan="2,0,-4,12,#FFFF0000" />
+        spannable:addAbsoluteSizeSpan="3,4,6,17,25,1"
+        spannable:addBackgroundColorSpan="1,8,12,18,#FF00FF00/1,2,5,33,#FFFF00FF"
+        spannable:addForegroundColorSpan="2,0,-4,17,#FFFF0000" />
 </LinearLayout>
