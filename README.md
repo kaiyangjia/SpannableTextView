@@ -7,7 +7,15 @@ Spannable TextView for android, implements SpannableString in xml layout file.
 
 ## Usage
 
-1. Add some Span.
+1. Import from jcenter
+
+   ```groovy
+   compile 'com.jiakaiyang:spannabletextview:0.9.1'
+   ```
+
+   ​
+
+2. Add some Span.
 
    ```xml
            <com.jiakaiyang.lib.SpannableTextView
@@ -24,7 +32,7 @@ Spannable TextView for android, implements SpannableString in xml layout file.
 
    ![screenshot1](art/screenshot1.png)
 
-2. Remove some Span.
+3. Remove some Span.
 
    ```java
    SpannableTextView textView = findViewById(R.id.spannable);
