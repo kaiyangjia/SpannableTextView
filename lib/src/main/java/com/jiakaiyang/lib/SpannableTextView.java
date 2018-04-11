@@ -104,7 +104,9 @@ public class SpannableTextView extends TextView {
 
         // init text
         CharSequence charSequence = getText();
-        this.setText(charSequence);
+        if (charSequence != null) {
+            this.setText(charSequence);
+        }
     }
 
     @Override
