@@ -7,6 +7,11 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +30,7 @@ import java.util.Map;
 public class SpannableTextView extends TextView {
     private static final String TAG = "SpannableTextView";
 
-    private Map<String, List<SpanConfig>> mSpans = new HashMap<>();
+    private Map<Class, List<SpanConfig>> mSpans = new HashMap<>();
 
 
     public SpannableTextView(Context context) {
@@ -69,35 +74,35 @@ public class SpannableTextView extends TextView {
         Log.i(TAG, "init: foregroundSrc: " + foregroundSrc);
         if (foregroundSrc != null) {
             List<SpanConfig> foregroundColorConfig = SpanConfig.createForegroundSpanConfigs(foregroundSrc);
-            mSpans.put("ForegroundColorSpan", foregroundColorConfig);
+            mSpans.put(ForegroundColorSpan.class, foregroundColorConfig);
         }
 
 
         String backgroundSrc = typedArray.getString(R.styleable.SpannableTextView_addBackgroundColorSpan);
         if (backgroundSrc != null) {
             List<SpanConfig> backgroundColorConfig = SpanConfig.createBackgroundSpanConfigs(backgroundSrc);
-            mSpans.put("BackgroundColorSpan", backgroundColorConfig);
+            mSpans.put(BackgroundColorSpan.class, backgroundColorConfig);
         }
 
 
         String absoluteSizeSrc = typedArray.getString(R.styleable.SpannableTextView_addAbsoluteSizeSpan);
         if (absoluteSizeSrc != null) {
             List<SpanConfig> absoluteSizeConfig = SpanConfig.createAbsoluteSizeSpanConfigs(absoluteSizeSrc);
-            mSpans.put("AbsoluteSizeSpan", absoluteSizeConfig);
+            mSpans.put(AbsoluteSizeSpan.class, absoluteSizeConfig);
         }
 
 
         String relativeSizeSrc = typedArray.getString(R.styleable.SpannableTextView_addRelativeSizeSpan);
         if (relativeSizeSrc != null) {
             List<SpanConfig> relativeSizeConfig = SpanConfig.createRelativeSizeSpanConfigs(relativeSizeSrc);
-            mSpans.put("RelativeSizeSpan", relativeSizeConfig);
+            mSpans.put(RelativeSizeSpan.class, relativeSizeConfig);
         }
 
 
         String urlSrc = typedArray.getString(R.styleable.SpannableTextView_addURLSpan);
         if (urlSrc != null) {
             List<SpanConfig> urlConfig = SpanConfig.createURLSpanConfigs(urlSrc);
-            mSpans.put("URLSpan", urlConfig);
+            mSpans.put(URLSpan.class, urlConfig);
         }
 
         typedArray.recycle();
@@ -178,6 +183,31 @@ public class SpannableTextView extends TextView {
      */
     public void removeSpan(int id) {
 
+    }
+
+    /**
+     * get specified Span
+     *
+     * @param id
+     * @param spanClass
+     * @return
+     */
+    public Object getSpan(int id, Class spanClass) {
+        if (!mSpans.containsKey(spanClass)) {
+            return null;
+        }
+
+        List<SpanConfig> spanList = mSpans.get(spanClass);
+
+        Object result = null;
+        for (SpanConfig config : spanList) {
+            int targetId = config.getId();
+            if (targetId == id) {
+                result = config.getSpan();
+            }
+        }
+
+        return result;
     }
 
     /* public method end */
