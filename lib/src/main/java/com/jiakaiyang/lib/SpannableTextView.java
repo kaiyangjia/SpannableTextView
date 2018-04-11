@@ -86,6 +86,20 @@ public class SpannableTextView extends TextView {
             mSpans.put("AbsoluteSizeSpan", absoluteSizeConfig);
         }
 
+
+        String relativeSizeSrc = typedArray.getString(R.styleable.SpannableTextView_addRelativeSizeSpan);
+        if (relativeSizeSrc != null) {
+            List<SpanConfig> relativeSizeConfig = SpanConfig.createRelativeSizeSpanConfigs(relativeSizeSrc);
+            mSpans.put("RelativeSizeSpan", relativeSizeConfig);
+        }
+
+
+        String urlSrc = typedArray.getString(R.styleable.SpannableTextView_addURLSpan);
+        if (urlSrc != null) {
+            List<SpanConfig> urlConfig = SpanConfig.createURLSpanConfigs(urlSrc);
+            mSpans.put("URLSpan", urlConfig);
+        }
+
         typedArray.recycle();
 
         // init text

@@ -5,6 +5,8 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.List;
 public class SpanConfig {
 
     private static final String DIVIDER = ",";
-    private static final String GROUP_VIDIER = "/";
+    private static final String GROUP_VIDIER = ";";
 
     private int id;
     private int start;
@@ -36,6 +38,12 @@ public class SpanConfig {
     // just for AbsoluteSizeSpan
     private int absoluteSizeSpanSize;
     private boolean absoluteSizeSpanDip;
+
+    // just for RelativeSizeSpan
+    private float proportion;
+
+    // just for URLSpan
+    private String url;
 
     private SpanConfig() {
     }
@@ -57,40 +65,29 @@ public class SpanConfig {
             throw new IllegalArgumentException("srcConfig format error");
         }
 
-        int[] ints = new int[strings.length];
-        for (int i = 0; i < ints.length; i++) {
-            try {
-                String str = strings[i];
-                if (str.startsWith("#")) {
-                    // color int, hex
-                    ints[i] = Color.parseColor(str);
-                } else {
-                    ints[i] = Integer.valueOf(str);
-                }
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("attr should be integer");
-            }
-        }
-
         // base attrs
-        spanConfig.setId(ints[0]);
-        spanConfig.setStart(ints[1]);
-        spanConfig.setEnd(ints[2]);
-        spanConfig.setSpanFlag(ints[3]);
+        spanConfig.setId(parseInt(strings[0]));
+        spanConfig.setStart(parseInt(strings[1]));
+        spanConfig.setEnd(parseInt(strings[2]));
+        spanConfig.setSpanFlag(parseInt(strings[3]));
 
         // set extra data
         if (type.equals(ForegroundColorSpan.class)) {
-            spanConfig.setForegroundColor(ints[4]);
+            spanConfig.setForegroundColor(parseInt(strings[4]));
         } else if (type.equals(BackgroundColorSpan.class)) {
-            spanConfig.setBackgroundColor(ints[4]);
+            spanConfig.setBackgroundColor(parseInt(strings[4]));
         } else if (type.equals(AbsoluteSizeSpan.class)) {
-            spanConfig.setAbsoluteSizeSpanSize(ints[4]);
+            spanConfig.setAbsoluteSizeSpanSize(parseInt(strings[4]));
 
             boolean isDip = false;
-            if (ints.length >= 6) {
-                isDip = ints[5] == 1;
+            if (strings.length >= 6) {
+                isDip = parseInt(strings[5]) == 1;
             }
             spanConfig.setAbsoluteSizeSpanDip(isDip);
+        } else if (type.equals(RelativeSizeSpan.class)) {
+            spanConfig.setProportion(parseFloat(strings[4]));
+        } else if (type.equals(URLSpan.class)) {
+            spanConfig.setUrl(strings[4]);
         }
 
         return spanConfig;
@@ -105,10 +102,8 @@ public class SpanConfig {
      */
     public static List<SpanConfig> createClickableSpanConfigs(String srcConfig
             , final SpanClickListener listener) {
-        checkArgNotNull(srcConfig);
-
+        String[] srcList = createSrcList(srcConfig);
         List<SpanConfig> result = new ArrayList<>();
-        String[] srcList = srcConfig.split("|");
 
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src
@@ -136,10 +131,8 @@ public class SpanConfig {
      * @return
      */
     public static List<SpanConfig> createForegroundSpanConfigs(String srcConfig) {
-        checkArgNotNull(srcConfig);
-
+        String[] srcList = createSrcList(srcConfig);
         List<SpanConfig> result = new ArrayList<>();
-        String[] srcList = srcConfig.split(GROUP_VIDIER);
 
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src, ForegroundColorSpan.class);
@@ -159,10 +152,8 @@ public class SpanConfig {
      * @return
      */
     public static List<SpanConfig> createBackgroundSpanConfigs(String srcConfig) {
-        checkArgNotNull(srcConfig);
-
+        String[] srcList = createSrcList(srcConfig);
         List<SpanConfig> result = new ArrayList<>();
-        String[] srcList = srcConfig.split(GROUP_VIDIER);
 
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src, BackgroundColorSpan.class);
@@ -182,10 +173,8 @@ public class SpanConfig {
      * @return
      */
     public static List<SpanConfig> createAbsoluteSizeSpanConfigs(String srcConfig) {
-        checkArgNotNull(srcConfig);
-
+        String[] srcList = createSrcList(srcConfig);
         List<SpanConfig> result = new ArrayList<>();
-        String[] srcList = srcConfig.split(GROUP_VIDIER);
 
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src, AbsoluteSizeSpan.class);
@@ -199,11 +188,97 @@ public class SpanConfig {
     }
 
 
+    /**
+     * create RelativeSizeSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createRelativeSizeSpanConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, RelativeSizeSpan.class);
+            RelativeSizeSpan span = new RelativeSizeSpan(spanConfig.getProportion());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * Create URLSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createURLSpanConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, URLSpan.class);
+            URLSpan span = new URLSpan(spanConfig.getUrl());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    private static String[] createSrcList(String srcConfig) {
+        checkArgNotNull(srcConfig);
+        return srcConfig.split(GROUP_VIDIER);
+    }
+
+
     private static void checkArgNotNull(String srcConfig) {
         if (srcConfig == null) {
             throw new IllegalArgumentException("srcConfig should not be null");
         }
     }
+
+    /**
+     * Parse string to int, this String maybe a color such as "#ff0000"
+     *
+     * @param str
+     * @return
+     */
+    private static int parseInt(String str) {
+        int result = -1;
+        try {
+            if (str.startsWith("#")) {
+                // color int, hex
+                result = Color.parseColor(str);
+            } else {
+                result = Integer.valueOf(str);
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("parseInt, attr should be integer");
+        }
+
+        return result;
+    }
+
+    /**
+     * Parse a string to float
+     *
+     * @param str
+     * @return
+     */
+    private static float parseFloat(String str) {
+        float result = -1;
+        try {
+            result = Float.parseFloat(str);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("parseInt, attr should be integer");
+        }
+
+        return result;
+    }
+
 
     public int getId() {
         return id;
@@ -276,5 +351,21 @@ public class SpanConfig {
 
     public void setAbsoluteSizeSpanDip(boolean absoluteSizeSpanDip) {
         this.absoluteSizeSpanDip = absoluteSizeSpanDip;
+    }
+
+    public float getProportion() {
+        return proportion;
+    }
+
+    public void setProportion(float proportion) {
+        this.proportion = proportion;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

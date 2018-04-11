@@ -11,8 +11,23 @@
         android:id="@+id/spannable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="hsdgdhsagdhjsagfdeugf"
+        android:text="Hello World! Hello World!"
         spannable:addAbsoluteSizeSpan="3,4,6,17,25,1"
-        spannable:addBackgroundColorSpan="1,8,12,18,#FF00FF00/1,2,5,33,#FFFF00FF"
+        spannable:addBackgroundColorSpan="1,8,12,18,#FF00FF00;1,2,5,33,#FFFF00FF"
         spannable:addForegroundColorSpan="2,0,-4,17,#FFFF0000" />
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World! Hello World!"
+        spannable:addAbsoluteSizeSpan="4,4,7,17,25,1"
+        spannable:addRelativeSizeSpan="5,9,13,17,2" />
+
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! Click Here!"
+        spannable:addURLSpan="6,13,23,17,https://github.com/kaiyangjia/SpannableTextView" />
 </LinearLayout>

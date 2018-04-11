@@ -6,5 +6,7 @@
         <attr name="addClickableSpan" format="string" />
         <attr name="addMaskFilterSpan" format="string" />
         <attr name="addAbsoluteSizeSpan" format="string" />
+        <attr name="addRelativeSizeSpan" format="string" />
+        <attr name="addURLSpan" format="string" />
     </declare-styleable>
 </resources>
