@@ -6,7 +6,10 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -44,6 +47,9 @@ public class SpanConfig {
 
     // just for URLSpan
     private String url;
+
+    // just for StyleSpan
+    private int style;
 
     private SpanConfig() {
     }
@@ -88,6 +94,8 @@ public class SpanConfig {
             spanConfig.setProportion(parseFloat(strings[4]));
         } else if (type.equals(URLSpan.class)) {
             spanConfig.setUrl(strings[4]);
+        } else if (type.equals(StyleSpan.class)) {
+            spanConfig.setStyle(parseInt(strings[4]));
         }
 
         return spanConfig;
@@ -220,6 +228,66 @@ public class SpanConfig {
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src, URLSpan.class);
             URLSpan span = new URLSpan(spanConfig.getUrl());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * create StrikethroughSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createStrikethroughSpanConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, StrikethroughSpan.class);
+            StrikethroughSpan span = new StrikethroughSpan();
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * create UnderlineSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createUnderlineSpanConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, UnderlineSpan.class);
+            UnderlineSpan span = new UnderlineSpan();
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * create StyleSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createStyleSpanConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, StyleSpan.class);
+            StyleSpan span = new StyleSpan(spanConfig.getStyle());
             spanConfig.setSpan(span);
             result.add(spanConfig);
         }
@@ -367,5 +435,13 @@ public class SpanConfig {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getStyle() {
+        return style;
+    }
+
+    public void setStyle(int style) {
+        this.style = style;
     }
 }

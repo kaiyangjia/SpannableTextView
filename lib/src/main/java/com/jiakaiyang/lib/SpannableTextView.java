@@ -11,7 +11,10 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -103,6 +106,27 @@ public class SpannableTextView extends TextView {
         if (urlSrc != null) {
             List<SpanConfig> urlConfig = SpanConfig.createURLSpanConfigs(urlSrc);
             mSpans.put(URLSpan.class, urlConfig);
+        }
+
+
+        String strikethroughSrc = typedArray.getString(R.styleable.SpannableTextView_addStrikethroughSpan);
+        if (strikethroughSrc != null) {
+            List<SpanConfig> strikethroughConfig = SpanConfig.createStrikethroughSpanConfigs(strikethroughSrc);
+            mSpans.put(StrikethroughSpan.class, strikethroughConfig);
+        }
+
+
+        String underlineSrc = typedArray.getString(R.styleable.SpannableTextView_addUnderlineSpan);
+        if (underlineSrc != null) {
+            List<SpanConfig> underlineConfig = SpanConfig.createUnderlineSpanConfigs(underlineSrc);
+            mSpans.put(UnderlineSpan.class, underlineConfig);
+        }
+
+
+        String styleSrc = typedArray.getString(R.styleable.SpannableTextView_addStyleSpan);
+        if (styleSrc != null) {
+            List<SpanConfig> styleConfig = SpanConfig.createStyleSpanConfigs(styleSrc);
+            mSpans.put(StyleSpan.class, styleConfig);
         }
 
         typedArray.recycle();

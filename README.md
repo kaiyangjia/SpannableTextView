@@ -39,7 +39,22 @@ Spannable TextView for android, implements SpannableString in xml layout file.
    textView.removeSpan(1);
    ```
 
-   ​
+
+
+
+### Support Spans
+
+1. BackgroundColorSpan
+2. ForegroundColorSpan
+3. AbsoluteSizeSpan
+4. RelativeSizeSpan
+5. StrikethroughSpan
+6. UnderlineSpan
+7. StyleSpan
+
+
+
+
 
 ### Attrs
 

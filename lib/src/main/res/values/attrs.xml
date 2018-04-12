@@ -8,5 +8,8 @@
         <attr name="addAbsoluteSizeSpan" format="string" />
         <attr name="addRelativeSizeSpan" format="string" />
         <attr name="addURLSpan" format="string" />
+        <attr name="addStrikethroughSpan" format="string" />
+        <attr name="addUnderlineSpan" format="string" />
+        <attr name="addStyleSpan" format="string" />
     </declare-styleable>
 </resources>
