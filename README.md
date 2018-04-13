@@ -10,23 +10,95 @@ Spannable TextView for android, implements SpannableString in xml layout file.
 1. Import from jcenter
 
    ```groovy
-   compile 'com.jiakaiyang:spannabletextview:0.9.1'
+   compile 'com.jiakaiyang:spannabletextview:0.9.2'
    ```
 
    ​
 
 2. Add some Span.
 
-   ```xml
-           <com.jiakaiyang.lib.SpannableTextView
-               android:id="@+id/spannable"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="hsdgdhsagdhjsagfdeugf"
-               spannable:addAbsoluteSizeSpan="3,4,6,17,25,1"
-               spannable:addBackgroundColorSpan="1,8,12,18,#FF00FF00/1,2,5,33,#FFFF00FF"
-               spannable:addForegroundColorSpan="2,0,-4,17,#FFFF0000" />
-   ```
+```xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:spannable="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/divider"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    tools:context="com.jiakaiyang.spannabletextview.demo.MainActivity">
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:id="@+id/spannable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World! Hello World!"
+        spannable:addAbsoluteSizeSpan="3,4,6,17,25,1"
+        spannable:addBackgroundColorSpan="1,8,12,18,#FF00FF00;1,2,5,33,#FFFF00FF"
+        spannable:addForegroundColorSpan="2,0,-4,17,#FFFF0000" />
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World! Hello World!"
+        spannable:addAbsoluteSizeSpan="4,4,7,17,25,1"
+        spannable:addRelativeSizeSpan="5,9,13,17,2" />
+
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! Click Here!"
+        spannable:addURLSpan="6,13,23,17,https://github.com/kaiyangjia/SpannableTextView" />
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! Delete This! Add Underline"
+        spannable:addStrikethroughSpan="6,13,23,17"
+        spannable:addUnderlineSpan="7,0,-13,17" />
+
+
+    <!--
+    public static final int NORMAL = 0;
+    public static final int BOLD = 1;
+    public static final int ITALIC = 2;
+    public static final int BOLD_ITALIC = 3;-->
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! BOLD ITALIC! BOLD_ITALIC"
+        spannable:addStyleSpan="8,13,17,17,1;9,18,24,17,2;7,0,-11,17,3" />
+
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! X2 Y3"
+        spannable:addSubscriptSpan="8,13,14,17;9,16,17,17" />
+
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! X2 Y3"
+        spannable:addSuperscriptSpan="8,13,14,17;9,16,17,17" />
+
+
+    <!-- "monospace", "serif", and "sans-serif" -->
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! monospace serif sans-serif"
+        spannable:addTypefaceSpan="8,13,22,17,monospace;9,23,27,17,serif;9,0,-10,17,sans-serif" />
+</LinearLayout>
+```
 
    The screenshot for this xml layout:
 
@@ -39,7 +111,9 @@ Spannable TextView for android, implements SpannableString in xml layout file.
    textView.removeSpan(1);
    ```
 
+4. If you want more, see `demo` module in this project. Or you can contact with me : kaiyangjia@163.com
 
+   ​
 
 
 ### Support Spans
@@ -64,7 +138,7 @@ Spannable TextView for android, implements SpannableString in xml layout file.
 
 10. TypefaceSpan
 
-    ​
+   ​
 
 
 
