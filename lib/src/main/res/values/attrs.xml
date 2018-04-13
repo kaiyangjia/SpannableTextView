@@ -11,5 +11,7 @@
         <attr name="addStrikethroughSpan" format="string" />
         <attr name="addUnderlineSpan" format="string" />
         <attr name="addStyleSpan" format="string" />
+        <attr name="addSubscriptSpan" format="string" />
+        <attr name="addSuperscriptSpan" format="string" />
     </declare-styleable>
 </resources>

@@ -8,6 +8,8 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
@@ -288,6 +290,46 @@ public class SpanConfig {
         for (String src : srcList) {
             final SpanConfig spanConfig = createInstance(src, StyleSpan.class);
             StyleSpan span = new StyleSpan(spanConfig.getStyle());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * create SubscriptSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createSubscriptConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, SubscriptSpan.class);
+            SubscriptSpan span = new SubscriptSpan();
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
+    /**
+     * create SuperscriptSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createSuperscriptConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, SuperscriptSpan.class);
+            SuperscriptSpan span = new SuperscriptSpan();
             spanConfig.setSpan(span);
             result.add(spanConfig);
         }

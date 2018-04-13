@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:divider="@drawable/divider"
     android:orientation="vertical"
+    android:showDividers="middle"
     tools:context="com.jiakaiyang.spannabletextview.demo.MainActivity">
 
     <com.jiakaiyang.lib.SpannableTextView
@@ -51,4 +53,20 @@
         android:clickable="true"
         android:text="Hello World! BOLD ITALIC! BOLD_ITALIC"
         spannable:addStyleSpan="8,13,17,17,1;9,18,24,17,2;7,0,-11,17,3" />
+
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! X2 Y3"
+        spannable:addSubscriptSpan="8,13,14,17;9,16,17,17" />
+
+
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! X2 Y3"
+        spannable:addSuperscriptSpan="8,13,14,17;9,16,17,17" />
 </LinearLayout>

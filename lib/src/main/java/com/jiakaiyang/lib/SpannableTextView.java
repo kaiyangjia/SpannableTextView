@@ -13,6 +13,8 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
@@ -127,6 +129,20 @@ public class SpannableTextView extends TextView {
         if (styleSrc != null) {
             List<SpanConfig> styleConfig = SpanConfig.createStyleSpanConfigs(styleSrc);
             mSpans.put(StyleSpan.class, styleConfig);
+        }
+
+
+        String subscriptSrc = typedArray.getString(R.styleable.SpannableTextView_addSubscriptSpan);
+        if (subscriptSrc != null) {
+            List<SpanConfig> subscriptConfig = SpanConfig.createSubscriptConfigs(subscriptSrc);
+            mSpans.put(SubscriptSpan.class, subscriptConfig);
+        }
+
+
+        String superscriptSrc = typedArray.getString(R.styleable.SpannableTextView_addSuperscriptSpan);
+        if (superscriptSrc != null) {
+            List<SpanConfig> superscriptConfig = SpanConfig.createSuperscriptConfigs(superscriptSrc);
+            mSpans.put(SuperscriptSpan.class, superscriptConfig);
         }
 
         typedArray.recycle();

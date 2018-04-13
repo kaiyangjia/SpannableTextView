@@ -51,7 +51,8 @@ Spannable TextView for android, implements SpannableString in xml layout file.
 5. StrikethroughSpan
 6. UnderlineSpan
 7. StyleSpan
-
+8. SubscriptSpan
+9. SuperscriptSpan
 
 
 
