@@ -69,4 +69,13 @@
         android:clickable="true"
         android:text="Hello World! X2 Y3"
         spannable:addSuperscriptSpan="8,13,14,17;9,16,17,17" />
+
+
+    <!-- "monospace", "serif", and "sans-serif" -->
+    <com.jiakaiyang.lib.SpannableTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="Hello World! monospace serif sans-serif"
+        spannable:addTypefaceSpan="8,13,22,17,monospace;9,23,27,17,serif;9,0,-10,17,sans-serif" />
 </LinearLayout>

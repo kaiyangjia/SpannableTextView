@@ -10,6 +10,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
+import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
@@ -52,6 +53,10 @@ public class SpanConfig {
 
     // just for StyleSpan
     private int style;
+
+
+    // just for TypefaceSpan
+    private String typefaceFamily;
 
     private SpanConfig() {
     }
@@ -98,6 +103,8 @@ public class SpanConfig {
             spanConfig.setUrl(strings[4]);
         } else if (type.equals(StyleSpan.class)) {
             spanConfig.setStyle(parseInt(strings[4]));
+        } else if (type.equals(TypefaceSpan.class)) {
+            spanConfig.setTypefaceFamily(strings[4]);
         }
 
         return spanConfig;
@@ -338,6 +345,26 @@ public class SpanConfig {
     }
 
 
+    /**
+     * create TypefaceSpan configs
+     *
+     * @param srcConfig
+     * @return
+     */
+    public static List<SpanConfig> createTypefaceConfigs(String srcConfig) {
+        String[] srcList = createSrcList(srcConfig);
+        List<SpanConfig> result = new ArrayList<>();
+        for (String src : srcList) {
+            final SpanConfig spanConfig = createInstance(src, TypefaceSpan.class);
+            TypefaceSpan span = new TypefaceSpan(spanConfig.getTypefaceFamily());
+            spanConfig.setSpan(span);
+            result.add(spanConfig);
+        }
+
+        return result;
+    }
+
+
     private static String[] createSrcList(String srcConfig) {
         checkArgNotNull(srcConfig);
         return srcConfig.split(GROUP_VIDIER);
@@ -485,5 +512,13 @@ public class SpanConfig {
 
     public void setStyle(int style) {
         this.style = style;
+    }
+
+    public String getTypefaceFamily() {
+        return typefaceFamily;
+    }
+
+    public void setTypefaceFamily(String typefaceFamily) {
+        this.typefaceFamily = typefaceFamily;
     }
 }

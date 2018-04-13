@@ -13,5 +13,6 @@
         <attr name="addStyleSpan" format="string" />
         <attr name="addSubscriptSpan" format="string" />
         <attr name="addSuperscriptSpan" format="string" />
+        <attr name="addTypefaceSpan" format="string" />
     </declare-styleable>
 </resources>

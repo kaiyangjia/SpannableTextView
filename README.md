@@ -45,15 +45,26 @@ Spannable TextView for android, implements SpannableString in xml layout file.
 ### Support Spans
 
 1. BackgroundColorSpan
+
 2. ForegroundColorSpan
+
 3. AbsoluteSizeSpan
+
 4. RelativeSizeSpan
+
 5. StrikethroughSpan
+
 6. UnderlineSpan
+
 7. StyleSpan
+
 8. SubscriptSpan
+
 9. SuperscriptSpan
 
+10. TypefaceSpan
+
+    ​
 
 
 
@@ -90,6 +101,23 @@ Multi spans attires is split by "/", the args will be used to create Span instan
 #### 2. Extra Data for Every Support Span
 
 
+
+
+
+### Change Log
+
+#### 0.9.2
+
+1. Add Some other Spans support, such as StrikethroughSpan,StyleSpan,UnderlineSpan etc.
+2. This is a stable version.
+
+
+
+#### 0.9.1
+
+1. Add very base Spans support, like BackgroundSpan,ForegroundSpan.
+
+   .
 
 ### TODO
 

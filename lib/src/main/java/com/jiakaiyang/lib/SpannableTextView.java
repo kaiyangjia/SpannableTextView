@@ -15,6 +15,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.SubscriptSpan;
 import android.text.style.SuperscriptSpan;
+import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
@@ -143,6 +144,13 @@ public class SpannableTextView extends TextView {
         if (superscriptSrc != null) {
             List<SpanConfig> superscriptConfig = SpanConfig.createSuperscriptConfigs(superscriptSrc);
             mSpans.put(SuperscriptSpan.class, superscriptConfig);
+        }
+
+
+        String typefaceSrc = typedArray.getString(R.styleable.SpannableTextView_addTypefaceSpan);
+        if (typefaceSrc != null) {
+            List<SpanConfig> typefaceConfig = SpanConfig.createTypefaceConfigs(typefaceSrc);
+            mSpans.put(TypefaceSpan.class, typefaceConfig);
         }
 
         typedArray.recycle();
